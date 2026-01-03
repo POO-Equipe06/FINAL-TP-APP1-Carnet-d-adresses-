@@ -11,3 +11,4 @@ class Contact :
     def contact_en_list(self):
         c=[self.nom, self.prenom, self.telephone, self.email]
         return f"{c[0]} {c[1]} | {c[2]} | {c[3]}"
+
