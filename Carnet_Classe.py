@@ -13,13 +13,12 @@ class Carnet:
         else:
             print("Erreur : L'index n'existe pas.")
 
-    def modifier_contact(self, index: int, nom: str, prenom: str, tel: str, email: str):
+    def modifier_contact(self, index: int, nouveau_nom: str, nouveau_prenom: str, nouveau_tel: str, nouveau_email: str):
         if 0 <= index < len(self.contacts):
-            contact = self.contacts[index]
-            contact.nom = nom
-            contact.prenom = prenom
-            contact.telephone = tel
-            contact.courriel = email
+            self.contacts[index].nom = nouveau_nom
+            self.contacts[index].prenom = nouveau_prenom
+            self.contacts[index].telephone = nouveau_tel
+            self.contacts[index].courriel = nouveau_email
         else:
             print("Erreur : Impossible de modifier, index invalide.")
 
