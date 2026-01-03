@@ -27,5 +27,5 @@ class Carnet:
         pass
 
     def sauvegarder_donnees(self):
-        """Prévu pour sauvegarder les données (vide pour l'instant)."""
+        """Prévu pour sauvegarder les données (vide  pour l'instant)."""
         pass
