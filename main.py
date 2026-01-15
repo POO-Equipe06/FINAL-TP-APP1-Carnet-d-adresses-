@@ -2,7 +2,7 @@
 import sqlite3
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, QMessageBox
 
-# Les fonctions
+# ----------------------------------------------Les fonctions-------------------------------------------------------
 # 1-creer la base do donnees et la table
 def creer_carnet():
     conn = sqlite3.connect("projet.db")
@@ -117,7 +117,7 @@ def getClickedCell(row, column):
     lineEditTel.setText(qtab.item(row, 3).text())
     lineEditMail.setText(qtab.item(row, 4).text())
 
-# Interface Graphique
+# ----------------------------------------Interface Graphique------------------------------------------------------
 
 app = QApplication([])
 fen = QWidget()
