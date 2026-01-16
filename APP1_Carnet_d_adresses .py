@@ -1,9 +1,9 @@
-# Importer les packages necessaires
+# Importer les packages
 import sqlite3
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, QMessageBox
 
 # ----------------------------------------------Les fonctions-------------------------------------------------------
-# 1-creer la base do donnees et la table
+# creer la base do donnees et la table
 def creer_carnet():
     conn = sqlite3.connect("projet.db")
     cursor = conn.cursor()
@@ -11,7 +11,7 @@ def creer_carnet():
     conn.commit()
     conn.close()
 
-# 2-Ajouter un contact dans le carnet
+# Ajouter un contact dans le carnet
 def inserer_contact():
     if not lineEditNom.text() or not lineEditPreNom.text() or not lineEditTel.text() or not lineEditMail.text():
         QMessageBox.critical(fen, "Erreur", "Tous les champs doivent être remplis !")
@@ -33,7 +33,7 @@ def inserer_contact():
     QMessageBox.information(fen, "Succès", "Le contact a été ajouté avec succès !")
 
 
-# 3-Supprimer un contact dans le carnet
+# Supprimer un contact dans le carnet
 def supprimer_contact():
     conn = sqlite3.connect("projet.db")
     cursor = conn.cursor()
@@ -50,14 +50,12 @@ def supprimer_contact():
     else:
         deleted_id = int(lineEditID.text())
         cursor.execute("DELETE FROM Persons WHERE ID = ?", (deleted_id,))
-        cursor.execute("UPDATE Persons SET ID = ID - 1 WHERE ID > ?", (deleted_id,))
-        cursor.execute("DELETE FROM sqlite_sequence WHERE name='Persons'")
         conn.commit()
         conn.close()
         afficher_carnet()
-        QMessageBox.information(fen, "Succès", "Le contact a été supprimer avec succès !")
+        QMessageBox.information(fen, "Succès", "Le Contact a été supprimer avec succès !")
 
-# 4-Modifier un contact dans le carnet
+# modifier un contact dans le carnet
 def modifier_contact():
     if not lineEditNom.text() or not lineEditPreNom.text() or not lineEditTel.text() or not lineEditMail.text():
         QMessageBox.critical(fen, "Erreur", "Tous les champs doivent être remplis !")
@@ -65,10 +63,10 @@ def modifier_contact():
     try:
         tel = int(lineEditTel.text())
         if tel <= 0:
-            QMessageBox.critical(fen, "Erreur", "Le téléphone doit être un nombre positif !")
+            QMessageBox.critical(fen, "Erreur", "le téléphone doit etre un nombre positif !")
             return
     except ValueError:
-        QMessageBox.critical(fen, "Erreur", "Le téléphone doit être un nombre entier !")
+        QMessageBox.critical(fen, "Erreur", "Le téléphone doit etre un nombre entier !")
         return
     conn = sqlite3.connect("projet.db")
     cursor = conn.cursor()
@@ -77,7 +75,7 @@ def modifier_contact():
     try:
         deleted_id = int(lineEditID.text())
     except ValueError:
-        QMessageBox.critical(fen, "Erreur", "L'ID doit être un nombre entier !")
+        QMessageBox.critical(fen, "Erreur", "L'ID doit etre un nombre entier !")
         return
     if deleted_id <= 0 or deleted_id > max_id:
         QMessageBox.critical(fen, "Erreur", "Entrer un ID correct !")
@@ -89,7 +87,7 @@ def modifier_contact():
         afficher_carnet()
         QMessageBox.information(fen, "Succès", "Le contact a été modifier avec succès !")
 
-# 5-Afficher le carnet
+# Afficher le carnet
 def afficher_carnet():
     conn = sqlite3.connect("projet.db")
     cursor = conn.cursor()
@@ -109,7 +107,7 @@ def afficher_carnet():
         for j in range(5):
             qtab.setItem(i, j, QTableWidgetItem(str(resultat[i][j])))
 
-# 6-Recuperer les ligne dans le tableau
+# Recuperer les ligne pour le tableau
 def getClickedCell(row, column):
     lineEditID.setText(qtab.item(row, 0).text())
     lineEditNom.setText(qtab.item(row, 1).text())
@@ -117,7 +115,7 @@ def getClickedCell(row, column):
     lineEditTel.setText(qtab.item(row, 3).text())
     lineEditMail.setText(qtab.item(row, 4).text())
 
-# ----------------------------------------Interface Graphique------------------------------------------------------
+# --------------------------------------L'Interface Graphique---------------------------------------------------
 
 app = QApplication([])
 fen = QWidget()
@@ -126,7 +124,7 @@ fen.setGeometry(100, 100, 675, 700)
 
 creer_carnet()
 
-# Entrer
+# Insert
 lineEditNom = QLineEdit(fen)
 lineEditNom.setGeometry(25, 50, 120, 30)
 lineEditNom.setPlaceholderText("Nom")
@@ -153,20 +151,20 @@ qtab = QTableWidget(fen)
 qtab.setGeometry(25, 150, 625, 500)
 qtab.cellClicked.connect(getClickedCell)
 
-# Supprimer par ID
+# Supprimer/Modifier
 lineEditID = QLineEdit(fen)
 lineEditID.setGeometry(450, 100, 70, 30)
 lineEditID.setPlaceholderText("ID")
 
+# Supprimer btn
 btnSupprimer = QPushButton("Supprimer", fen)
 btnSupprimer.setGeometry(550, 100, 100, 30)
 btnSupprimer.clicked.connect(supprimer_contact)
 
-# Modifier
+# Modifier btn
 btnModifier = QPushButton("Modifier", fen)
 btnModifier.setGeometry(25, 100, 100, 30)
 btnModifier.clicked.connect(modifier_contact)
-
 
 afficher_carnet()
 fen.show()
